@@ -31,13 +31,29 @@ class ITDepartment extends Department {
 }
 
 class AccountDepartment extends Department {
-  constructor(id: string, private reports: string[]) {
-    super(id, 'Accounting');
+  private lastReport: string;
 
+  get mostRecentReport() {
+    if (this.lastReport) {
+      return this.lastReport;
+    }
+    throw new Error("No report found.");
+  }
+
+  set mostRecentReport(value: string) {
+    if(!value) {
+      throw new Error('Please pass in a valid value');
+    }
+    this.addReport(value);
+  }
+
+  constructor(id: string, private reports: string[]) {
+    super(id, "Accounting");
+    this.lastReport = reports[0];
   }
 
   addEmployee(name: string) {
-    if(name === 'Aarron') {
+    if (name === "Aarron") {
       return;
     }
     this.employees.push(name);
@@ -45,6 +61,7 @@ class AccountDepartment extends Department {
 
   addReport(text: string) {
     this.reports.push(text);
+    this.lastReport = text;
   }
 
   printReports() {
@@ -52,7 +69,7 @@ class AccountDepartment extends Department {
   }
 }
 
-const it = new ITDepartment("d1", ['Aarron']);
+const it = new ITDepartment("d1", ["Aarron"]);
 
 it.addEmployee("Aarron");
 it.addEmployee("Tammy");
@@ -62,10 +79,15 @@ it.printEmployeeInformation();
 
 console.log(it);
 
-const accounts = new AccountDepartment('d2', []);
-accounts.addReport('Something went wrong');
-accounts.addEmployee('Aarron');
-accounts.addEmployee('Tammy');
+const accounts = new AccountDepartment("d2", []);
+
+accounts.mostRecentReport = 'Year End Report';
+accounts.addReport("Something went wrong");
+
+console.log(accounts.mostRecentReport);
+
+accounts.addEmployee("Aarron");
+accounts.addEmployee("Tammy");
 accounts.printReports();
 accounts.printEmployeeInformation();
 
