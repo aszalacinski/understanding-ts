@@ -23,7 +23,7 @@ class ITDepartment extends Department {
         this.admins = admins;
     }
     describe() {
-        console.log('IT Deparment - ID: ' + this.id);
+        console.log("IT Deparment - ID: " + this.id);
     }
 }
 class AccountDepartment extends Department {
@@ -43,6 +43,13 @@ class AccountDepartment extends Department {
             throw new Error("Please pass in a valid value");
         }
         this.addReport(value);
+    }
+    static getInstance() {
+        if (AccountDepartment.instance) {
+            return this.instance;
+        }
+        this.instance = new AccountDepartment("d2", []);
+        return this.instance;
     }
     describe() {
         console.log("Accounting Department - ID:" + this.id);
@@ -69,7 +76,7 @@ it.addEmployee("Tammy");
 it.describe();
 it.printEmployeeInformation();
 console.log(it);
-const accounts = new AccountDepartment("d2", []);
+const accounts = AccountDepartment.getInstance();
 accounts.mostRecentReport = "Year End Report";
 accounts.addReport("Something went wrong");
 console.log(accounts.mostRecentReport);
