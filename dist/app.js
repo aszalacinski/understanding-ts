@@ -8,9 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-function Logger(constructor) {
-    console.log('Logging...');
-    console.log(constructor);
+function Logger(logString) {
+    return function (constructor) {
+        console.log(logString);
+        console.log(constructor);
+    };
 }
 let Person = class Person {
     constructor() {
@@ -19,7 +21,7 @@ let Person = class Person {
     }
 };
 Person = __decorate([
-    Logger,
+    Logger('LOGGING - PERSON'),
     __metadata("design:paramtypes", [])
 ], Person);
 const person = new Person();
