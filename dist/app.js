@@ -41,4 +41,12 @@ textStorage.addItem('Aarron');
 textStorage.addItem('Tammy');
 textStorage.removeItem('Aarron');
 console.log(textStorage.getItems());
+function createCourseGoal(title, description, date) {
+    let courseGoal = {};
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+    return courseGoal;
+}
+const names = ['Aarron', 'Fancy'];
 //# sourceMappingURL=app.js.map
