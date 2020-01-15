@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 function Logger(logString) {
     console.log('LOGGER FACTORY');
     return function (constructor) {
@@ -44,6 +47,24 @@ function Log(target, propertyName) {
     console.log('Property decorator');
     console.log(target, propertyName);
 }
+function Log2(target, name, descriptor) {
+    console.log('Accessor decorator!');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+function Log3(target, name, descriptor) {
+    console.log('Method decorator!');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+function Log4(target, name, position) {
+    console.log('Parameter decorator!');
+    console.log(target);
+    console.log(name);
+    console.log(position);
+}
 class Product {
     constructor(t, p) {
         this.title = t;
@@ -65,4 +86,16 @@ __decorate([
     Log,
     __metadata("design:type", String)
 ], Product.prototype, "title", void 0);
+__decorate([
+    Log2,
+    __metadata("design:type", Number),
+    __metadata("design:paramtypes", [Number])
+], Product.prototype, "price", null);
+__decorate([
+    Log3,
+    __param(0, Log4),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], Product.prototype, "getPriceWithTax", null);
 //# sourceMappingURL=app.js.map
