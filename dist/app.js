@@ -12,23 +12,23 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 function Logger(logString) {
-    console.log('LOGGER FACTORY');
+    console.log("LOGGER FACTORY");
     return function (constructor) {
         console.log(logString);
         console.log(constructor);
     };
 }
 function WithTemplate(template, hookId) {
-    console.log('TEMPLATE FACTORY');
+    console.log("TEMPLATE FACTORY");
     return function (originalConstructor) {
         return class extends originalConstructor {
             constructor(..._) {
                 super();
-                console.log('Rendering template.');
+                console.log("Rendering template.");
                 const hookEl = document.getElementById(hookId);
                 if (hookEl) {
                     hookEl.innerHTML = template;
-                    hookEl.querySelector('h1').textContent = this.name;
+                    hookEl.querySelector("h1").textContent = this.name;
                 }
             }
         };
@@ -36,33 +36,35 @@ function WithTemplate(template, hookId) {
 }
 let Person = class Person {
     constructor() {
-        this.name = 'Aarron';
-        console.log('Creating person object...');
+        this.name = "Aarron";
+        console.log("Creating person object...");
     }
 };
 Person = __decorate([
-    Logger('LOGGING'),
-    WithTemplate('<h1>My Person Object</h1>', 'app'),
+    Logger("LOGGING"),
+    WithTemplate("<h1>My Person Object</h1>", "app"),
     __metadata("design:paramtypes", [])
 ], Person);
+const person = new Person();
+console.log(person);
 function Log(target, propertyName) {
-    console.log('Property decorator');
+    console.log("Property decorator");
     console.log(target, propertyName);
 }
 function Log2(target, name, descriptor) {
-    console.log('Accessor decorator!');
+    console.log("Accessor decorator!");
     console.log(target);
     console.log(name);
     console.log(descriptor);
 }
 function Log3(target, name, descriptor) {
-    console.log('Method decorator!');
+    console.log("Method decorator!");
     console.log(target);
     console.log(name);
     console.log(descriptor);
 }
 function Log4(target, name, position) {
-    console.log('Parameter decorator!');
+    console.log("Parameter decorator!");
     console.log(target);
     console.log(name);
     console.log(position);
@@ -77,7 +79,7 @@ class Product {
             this._price = val;
         }
         else {
-            throw new Error('Invlaid price - should be positive');
+            throw new Error("Invlaid price - should be positive");
         }
     }
     getPriceWithTax(tax) {
@@ -100,4 +102,35 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], Product.prototype, "getPriceWithTax", null);
+const p1 = new Product("Book", 19);
+const p2 = new Product("Book 2", 29);
+function AutoBind(_, _2, descriptor) {
+    const originalMethod = descriptor.value;
+    const adjustedDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            const boundFn = originalMethod.bind(this);
+            return boundFn;
+        }
+    };
+    return adjustedDescriptor;
+}
+class Printer {
+    constructor() {
+        this.message = "This works!";
+    }
+    showMessage() {
+        console.log(this.message);
+    }
+}
+__decorate([
+    AutoBind,
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Printer.prototype, "showMessage", null);
+const p = new Printer();
+const button = document.querySelector("button");
+button.addEventListener("click", p.showMessage);
 //# sourceMappingURL=app.js.map
